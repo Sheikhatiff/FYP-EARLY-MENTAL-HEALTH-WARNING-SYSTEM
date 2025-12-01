@@ -44,7 +44,7 @@ const DashboardPage = () => {
     if (path.includes('/write')) return 'write';
     if (path.includes('/journals') || path.includes('/all-journals-entries')) return 'journals';
     if (path.includes('/emotions')) return 'emotions';
-    if (path.includes('/goals')) return 'goals';
+    if (path.includes('/mood-visualization')) return 'mood-visualization';
     if (path.includes('/settings')) return 'settings';
     return 'overview';
   };
@@ -67,7 +67,7 @@ const DashboardPage = () => {
     { id: "write", label: "Write Entry", icon: PenTool, path: "/home/write" },
     { id: "journals", label: "Journal Entries", icon: BookOpen, path: "/home/all-journals-entries" },
     { id: "emotions", label: "Emotion Tracking", icon: Heart, path: "/home/emotions" },
-    { id: "goals", label: "Mood Visualization", icon: Target, path: "/home/goals" },
+    { id: "mood-visualization", label: "Mood Visualization", icon: Target, path: "/home/mood-visualization" },
     { id: "support", label: "Community Support", icon: MessageCircle, path: "/support-chat" },
     { id: "settings", label: "Settings", icon: Settings, path: "/home/settings" },
   ];
@@ -197,7 +197,7 @@ const DashboardPage = () => {
           {activeTab === "write" && <WriteEntryPage />}
           {activeTab === "journals" && <JournalEntriesPage />}
           {activeTab === "emotions" && <EmotionsPage />}
-          {activeTab === "goals" && <GoalsTab />}
+          {activeTab === "mood-visualization" && <GoalsTab />}
           {activeTab === "settings" && <SettingPage isDashboard={true} />}
         </main>
       </div>

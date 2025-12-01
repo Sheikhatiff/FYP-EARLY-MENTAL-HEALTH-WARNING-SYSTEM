@@ -17,8 +17,10 @@ const AIChatbot = () => {
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [streamingMessageId, setStreamingMessageId] = useState(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const streamingIntervalRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -33,11 +35,50 @@ const AIChatbot = () => {
       inputRef.current.focus();
     }
   }, [isOpen]);
+
+  // Cleanup streaming interval on unmount
+  useEffect(() => {
+    return () => {
+      if (streamingIntervalRef.current) {
+        clearInterval(streamingIntervalRef.current);
+      }
+    };
+  }, []);
   
   // Don't show chatbot on admin page
   if (location.pathname.startsWith('/admin')) {
     return null;
   }
+
+  // Function to stream text word by word
+  const streamText = (fullText, messageId) => {
+    const words = fullText.split(' ');
+    let currentWordIndex = 0;
+
+    // Clear any existing interval
+    if (streamingIntervalRef.current) {
+      clearInterval(streamingIntervalRef.current);
+    }
+
+    setStreamingMessageId(messageId);
+
+    streamingIntervalRef.current = setInterval(() => {
+      if (currentWordIndex < words.length) {
+        const displayedText = words.slice(0, currentWordIndex + 1).join(' ');
+        
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === messageId ? { ...msg, text: displayedText } : msg
+          )
+        );
+        
+        currentWordIndex++;
+      } else {
+        clearInterval(streamingIntervalRef.current);
+        setStreamingMessageId(null);
+      }
+    }, 80); // Adjust speed here (80ms per word)
+  };
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -55,14 +96,21 @@ const AIChatbot = () => {
 
     try {
       const response = await genAi(inputValue);
+      const botMessageId = Date.now() + 1;
       const botMessage = {
-        id: Date.now() + 1,
-        text: response,
+        id: botMessageId,
+        text: "", // Start with empty text
         sender: "bot",
         timestamp: new Date(),
       };
+      
       setMessages((prev) => [...prev, botMessage]);
+      setIsLoading(false);
+      
+      // Start streaming the response
+      streamText(response, botMessageId);
     } catch {
+      setIsLoading(false);
       const errorMessage = {
         id: Date.now() + 1,
         text: "I'm having trouble connecting. Please try again. 💚",
@@ -70,8 +118,6 @@ const AIChatbot = () => {
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -176,6 +222,15 @@ const AIChatbot = () => {
                   >
                     <p className="text-sm leading-relaxed whitespace-pre-wrap">
                       {message.text}
+                      {streamingMessageId === message.id && (
+                        <motion.span
+                          animate={{ opacity: [1, 0] }}
+                          transition={{ duration: 0.5, repeat: Infinity }}
+                          className="inline-block ml-1"
+                        >
+                          ▊
+                        </motion.span>
+                      )}
                     </p>
                     <p
                       className={`text-xs mt-1 ${
@@ -245,14 +300,14 @@ const AIChatbot = () => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask me anything about mental health..."
-                  disabled={isLoading}
+                  disabled={isLoading || streamingMessageId !== null}
                   className="flex-1 bg-gray-800 border border-emerald-500/30 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                 />
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleSendMessage}
-                  disabled={!inputValue.trim() || isLoading}
+                  disabled={!inputValue.trim() || isLoading || streamingMessageId !== null}
                   className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 disabled:from-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white px-4 py-3 rounded-xl flex items-center justify-center transition-all"
                 >
                   {isLoading ? (
