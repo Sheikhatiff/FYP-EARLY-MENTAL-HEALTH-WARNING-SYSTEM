@@ -2,7 +2,8 @@ import { create } from "zustand";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const API_URL = "http://localhost:5000/api/v1";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const API_URL = `${API_BASE_URL}/api/v1`;
 
 // Socket instance
 let socket = null;
@@ -18,7 +19,7 @@ export const useSupportChatStore = create((set, get) => ({
   initSocket: (userId) => {
     if (socket?.connected) return;
 
-    socket = io("http://localhost:5000", {
+    socket = io(API_BASE_URL, {
       withCredentials: true,
     });
 

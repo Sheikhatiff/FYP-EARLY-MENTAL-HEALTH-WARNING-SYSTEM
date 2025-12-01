@@ -178,10 +178,7 @@ const SupportChatPage = () => {
               >
                 <div className="relative">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center overflow-hidden">
-                    {onlineUser.photo &&
-                    onlineUser.photo !== "default.jpg" &&
-                    onlineUser.photo !== "default.png" ? (
-                        
+                    {onlineUser.photo && onlineUser.photo !== "default.jpg" ? (
                       <img
                         src={`http://localhost:5000/img/users/${onlineUser?.photo}`}
                         alt={onlineUser.name}
@@ -295,9 +292,7 @@ const SupportChatPage = () => {
                               : "bg-gradient-to-br from-emerald-400 to-emerald-600"
                           }`}
                         >
-                          {userPhoto && 
-                           userPhoto !== "default.jpg" && 
-                           userPhoto !== "default.png" ? (
+                          {userPhoto && userPhoto !== "default.jpg" ? (
                             <img
                               src={`http://localhost:5000/img/users/${userPhoto}`}
                               alt={msg.userName}

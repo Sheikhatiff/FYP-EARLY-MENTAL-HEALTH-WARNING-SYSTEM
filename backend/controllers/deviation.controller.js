@@ -10,7 +10,7 @@ export const ALERT_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 export const PROFESSIONAL_HELP_COOLDOWN_MS = 72 * 60 * 60 * 1000;
 export const LOOKBACK_ENTRIES = 7;
 export const MAX_EMOTION_KEYS = 40;
-export const MIN_ENTRIES_FOR_BASELINE = 3; 
+export const MIN_ENTRIES_FOR_BASELINE = 2;  // Start detection from 2nd entry 
 
 export const SEVERITY_LEVELS = {
   INFO: "info",

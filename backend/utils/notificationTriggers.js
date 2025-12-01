@@ -1,5 +1,13 @@
 import { createNotification } from "../controllers/notification.controller.js";
 import { checkAlertCooldown, setCooldown } from "./cooldownManager.js";
+import { 
+  sendDeviationAlertWithPreferences,
+  sendEmotionSpikeWithPreferences,
+  sendPersistentNegativityWithPreferences,
+  sendPatternWarningWithPreferences,
+  sendPositiveMilestoneWithPreferences,
+  sendBaselineUpdateWithPreferences
+} from "./emailNotificationHelper.js";
 
 /**
  * Severity mapping based on deviation score and emotion types
@@ -64,6 +72,16 @@ export const notifyDeviationAlert = async (
       },
       action: "NONE",
     }, io);
+
+    // Send email alert for deviation
+    await sendDeviationAlertWithPreferences(userId, {
+      emotion,
+      currentValue,
+      baselineValue,
+      deviationScore,
+      percentageChange,
+      severity
+    });
   } catch (error) {
     console.error("[NotificationTriggers] ❌ Error creating deviation alert notification:", error);
   }
@@ -110,6 +128,14 @@ export const notifyEmotionSpike = async (
       },
       action: "CHECK_BASELINE",
     }, io);
+
+    // Send email alert for emotion spike
+    await sendEmotionSpikeWithPreferences(userId, {
+      emotion,
+      spikeValue,
+      previousValue,
+      severity
+    });
   } catch (error) {
     console.error("[NotificationTriggers] ❌ Error creating emotion spike notification:", error);
   }
@@ -157,6 +183,13 @@ export const notifyPersistentNegativity = async (
       },
       action: "TAKE_ACTION",
     }, io);
+
+    // Send email alert for persistent negativity - CRITICAL (always sent)
+    await sendPersistentNegativityWithPreferences(userId, {
+      negativeEmotions,
+      consecutiveCount,
+      severity
+    });
   } catch (error) {
     console.error(
       "[NotificationTriggers] ❌ Error creating persistent negativity notification:",
@@ -188,6 +221,13 @@ export const notifyPositiveMilestone = async (
       },
       action: "NONE",
     }, io);
+
+    // Send email for positive milestone
+    await sendPositiveMilestoneWithPreferences(userId, {
+      achievement,
+      message: details.message,
+      description: details.description
+    });
   } catch (error) {
     console.error("Error creating positive milestone notification:", error);
   }
@@ -218,6 +258,14 @@ export const notifyPatternWarning = async (
       },
       action: "CHECK_BASELINE",
     }, io);
+
+    // Send email for pattern warning
+    await sendPatternWarningWithPreferences(userId, {
+      pattern,
+      message: details.message,
+      description: details.description,
+      severity
+    });
   } catch (error) {
     console.error("Error creating pattern warning notification:", error);
   }
@@ -242,6 +290,14 @@ export const notifyBaselineUpdate = async (userId, entryCount, changes, io = nul
       },
       action: "NONE",
     }, io);
+
+    // Send email for baseline update (only on milestone entries: 5, 10, 20, 50, etc.)
+    if ([5, 10, 20, 50, 100].includes(entryCount)) {
+      await sendBaselineUpdateWithPreferences(userId, {
+        entryCount,
+        changes
+      });
+    }
   } catch (error) {
     console.error("Error creating baseline update notification:", error);
   }

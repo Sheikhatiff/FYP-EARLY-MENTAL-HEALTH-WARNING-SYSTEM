@@ -65,12 +65,14 @@ const baselineCreation_DeviationDetectionAgenda = () => {
       console.log("[Agenda] 👤 Running baselineCreation_DeviationDetection for user:", userId);
       await createOrUpdateBaseline(userId, prediction);
       console.log("[Agenda] ✅ Completed baselineCreation for user:", userId);
-      if(totalJournals && totalJournals>1){
+      if(totalJournals && totalJournals >= 2){  // Start deviation detection from 2nd entry
         const io = getIO();
         console.log(`[Agenda] 🔌 Socket.io instance available: ${io ? "✅ YES" : "❌ NO"}`);
         // await detectDeviation(userId, prediction);
         await detectDeviation(userId, prediction, UserHistory, UserBaseline, {}, io);  
         console.log("[Agenda] ✅ Completed DeviationDetection for user:", userId)
+      } else {
+        console.log(`[Agenda] ℹ️ Skipping deviation detection - only ${totalJournals} entry/entries (need 2+)`);
       }
       await job.remove();
     } catch (error) {

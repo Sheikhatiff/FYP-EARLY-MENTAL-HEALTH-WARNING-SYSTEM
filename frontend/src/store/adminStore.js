@@ -2,8 +2,9 @@ import { create } from "zustand";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const USER_API_URL = `http://localhost:5000/api/v1/users`;
-const SOCKET_URL = `http://localhost:5000`;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const USER_API_URL = `${API_BASE_URL}/api/v1/users`;
+const SOCKET_URL = API_BASE_URL;
 axios.defaults.withCredentials = true;
 
 let socket = null;
@@ -228,7 +229,7 @@ export const useAdminStore = create((set, get) => ({
     set({ isLoading: true, error: null, message: null });
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/v1/notifications/broadcast/send",
+        `${API_BASE_URL}/api/v1/notifications/broadcast/send`,
         {
           title,
           description,

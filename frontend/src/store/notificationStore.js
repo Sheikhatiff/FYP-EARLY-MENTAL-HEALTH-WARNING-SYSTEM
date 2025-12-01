@@ -2,8 +2,9 @@ import { create } from "zustand";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const NOTIFICATION_API_URL = `http://localhost:5000/api/v1/notifications`;
-const SOCKET_URL = `http://localhost:5000`;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const NOTIFICATION_API_URL = `${API_BASE_URL}/api/v1/notifications`;
+const SOCKET_URL = API_BASE_URL;
 axios.defaults.withCredentials = true;
 
 let socket = null;

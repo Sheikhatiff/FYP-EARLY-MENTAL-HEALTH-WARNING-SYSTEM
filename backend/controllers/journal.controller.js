@@ -2,6 +2,7 @@ import Journal from "../models/journal.model.js";
 import Agenda from "../utils/agenda.js";
 import { startBaselineAgenda } from "./agenda.controller.js";
 import { updateUserEngagement } from "../services/notificationScheduler.js";
+import { sendJournalEntryWithPreferences } from "../utils/emailNotificationHelper.js";
 
 export const createJournal = async (req, res) => {
   try {
@@ -31,6 +32,13 @@ export const createJournal = async (req, res) => {
       console.error(`[Journal] ⚠️ Error updating engagement state:`, engagementError);
       // Don't fail journal creation due to engagement tracking error
     }
+
+    // ✉️ Send journal entry confirmation email
+    await sendJournalEntryWithPreferences(user, {
+      title: title || 'New Entry',
+      emotions: result?.result_dict,
+      analysisDate: new Date().toLocaleDateString()
+    });
 
     if(user && result?.result_var)
     {startBaselineAgenda()

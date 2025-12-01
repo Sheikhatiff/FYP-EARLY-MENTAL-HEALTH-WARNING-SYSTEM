@@ -11,6 +11,8 @@ import {
   updateUser,
   uploadUserPhoto,
   getOnlineStatus,
+  getEmailNotificationPreferences,
+  updateEmailNotificationPreferences,
 } from "../controllers/user.controller.js";
 import { restrictTo, verifyToken } from "../middleware/auth.middleware.js";
 
@@ -21,6 +23,10 @@ UserRouter.use(verifyToken);
 UserRouter.delete("/deleteMe", deleteMe);
 UserRouter.patch("/updateMyPassword", updatePassword);
 UserRouter.patch("/updateMe", checkUpdateReq, uploadUserPhoto, updateUser);
+
+// Email notification preferences routes
+UserRouter.get("/email-preferences", getEmailNotificationPreferences);
+UserRouter.patch("/email-preferences", updateEmailNotificationPreferences);
 
 UserRouter.use(restrictTo("admin"));
 

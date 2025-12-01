@@ -2,7 +2,8 @@ import { create } from "zustand";
 
 import axios from "axios";
 
-const USER_API_URL = `http://localhost:5000/api/v1/journals`;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const USER_API_URL = `${API_BASE_URL}/api/v1/journals`;
 axios.defaults.withCredentials = true;
 
 export const useJournalStore = create((set) => ({

@@ -341,3 +341,95 @@ export const getOnlineStatus = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+/**
+ * Get user's email notification preferences
+ */
+export const getEmailNotificationPreferences = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId).select('emailNotificationPreferences');
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: user.emailNotificationPreferences || {
+        enabled: true,
+        journalEntries: true,
+        deviationAlerts: true,
+        emotionSpikes: true,
+        persistentNegativity: true,
+        patternWarnings: true,
+        positiveMilestones: false,
+        baselineUpdates: false
+      }
+    });
+  } catch (err) {
+    console.error(`Error in getEmailNotificationPreferences: ${err.message}`);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+/**
+ * Update user's email notification preferences
+ */
+export const updateEmailNotificationPreferences = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const preferences = req.body;
+
+    // Validate preferences object
+    const allowedPreferences = [
+      'enabled',
+      'journalEntries',
+      'deviationAlerts',
+      'emotionSpikes',
+      'persistentNegativity',
+      'patternWarnings',
+      'positiveMilestones',
+      'baselineUpdates'
+    ];
+
+    const updateData = {};
+    for (const key of allowedPreferences) {
+      if (preferences.hasOwnProperty(key) && typeof preferences[key] === 'boolean') {
+        updateData[`emailNotificationPreferences.${key}`] = preferences[key];
+      }
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No valid preferences provided"
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: updateData },
+      { new: true, runValidators: true }
+    ).select('emailNotificationPreferences');
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Email notification preferences updated successfully",
+      data: user.emailNotificationPreferences
+    });
+  } catch (err) {
+    console.error(`Error in updateEmailNotificationPreferences: ${err.message}`);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};

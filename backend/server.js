@@ -24,8 +24,12 @@ const PORT = process.env.PORT || 5000;
 const ENV = process.env.NODE_ENV || "development";
 const app = express();
 const httpServer = createServer(app);
+
 const io = new Server(httpServer, {
-  cors: { origin: "http://localhost:5173", credentials: true },
+  cors: { 
+    origin: "http://localhost:5173",
+    credentials: true 
+  },
 });
 
 // Set io instance for Agenda jobs to use
@@ -35,7 +39,10 @@ app.use("/img/users", express.static(path.join(__dirname, "public/img/users")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ 
+  origin: "http://localhost:5173",
+  credentials: true 
+}));
 
 app.use("/api/v1/auth", AuthRouter);
 app.use("/api/v1/users", UserRouter);
