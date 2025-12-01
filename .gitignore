@@ -1,0 +1,4 @@
+node_modules
+backend/config.env
+backend/bert_base_fyp_model
+backend/checkpoint-3000

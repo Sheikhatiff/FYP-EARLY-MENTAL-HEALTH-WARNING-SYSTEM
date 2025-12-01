@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+a.canvasjs-chart-credit {
+  display: none !important;
+}
+
+.canvasjs-chart-container a {
+  display: none !important;
+}
+
+/* Custom scrollbar for dashboard and pages */
+.dashboard-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dashboard-scrollbar::-webkit-scrollbar-track {
+  background: #111827;
+}
+
+.dashboard-scrollbar::-webkit-scrollbar-thumb {
+  background: #10b981;
+  border-radius: 4px;
+}
+
+.dashboard-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #059669;
+}
+
+/* Firefox scrollbar */
+.dashboard-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #10b981 #111827;
+}

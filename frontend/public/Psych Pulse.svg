@@ -1,0 +1,72 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="royalShield" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6a5acd"/>
+      <stop offset="50%" stop-color="#9370db"/>
+      <stop offset="100%" stop-color="#ba55d3"/>
+    </linearGradient>
+    <linearGradient id="brainGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#5b86e5"/>
+    </linearGradient>
+    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd700"/>
+      <stop offset="50%" stop-color="#ffb347"/>
+      <stop offset="100%" stop-color="#ff8c42"/>
+    </linearGradient>
+    <filter id="luxuryShadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#4a0e4e" flood-opacity="0.3"/>
+    </filter>
+    <filter id="textGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Outer royal frame -->
+  <circle cx="150" cy="150" r="140" fill="none" stroke="url(#goldAccent)" stroke-width="2" opacity="0.4"/>
+  <circle cx="150" cy="150" r="130" fill="none" stroke="url(#royalShield)" stroke-width="1" opacity="0.6"/>
+  
+  <!-- Main shield -->
+  <path d="M150 40 L210 70 L210 140 Q210 180 150 200 Q90 180 90 140 L90 70 Z" 
+        fill="url(#royalShield)" filter="url(#luxuryShadow)" opacity="0.95"/>
+  
+  <!-- Crown on shield -->
+  <rect x="130" y="50" width="40" height="8" fill="url(#goldAccent)" rx="2"/>
+  <polygon points="135,50 140,35 145,50" fill="url(#goldAccent)"/>
+  <polygon points="145,50 150,30 155,50" fill="url(#goldAccent)"/>
+  <polygon points="155,50 160,35 165,50" fill="url(#goldAccent)"/>
+  <circle cx="142.5" cy="40" r="2" fill="#ff6b6b"/>
+  <circle cx="150" cy="35" r="2.5" fill="#4ecdc4"/>
+  <circle cx="157.5" cy="40" r="2" fill="#feca57"/>
+  
+  <!-- Brain symbol -->
+  <path d="M135 85 Q125 75 130 95 Q120 90 125 105 Q115 100 120 115 Q125 125 135 120 Q140 130 150 125 Q160 130 165 120 Q175 125 180 115 Q185 100 175 105 Q180 90 170 95 Q175 75 165 85 Q160 70 150 75 Q140 70 135 85 Z" 
+        fill="url(#brainGlow)" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- Neural pathways -->
+  <path d="M135 100 Q145 95 155 100 M140 110 Q150 105 160 110 M135 115 Q150 120 165 115" 
+        stroke="#ffffff" stroke-width="1.5" fill="none" opacity="0.8"/>
+  
+  <!-- Pulse wave -->
+  <path d="M100 130 L125 130 L130 120 L135 140 L140 130 L160 130 L165 120 L170 140 L175 130 L200 130" 
+        stroke="url(#goldAccent)" stroke-width="2" fill="none" opacity="0.9"/>
+  
+  <!-- Warning indicator -->
+  <circle cx="175" cy="85" r="12" fill="#ff4757" stroke="#ffffff" stroke-width="2"/>
+  <path d="M175 80 L175 87 M175 91 L175 92" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- App name - Psyche -->
+  <text x="150" y="230" text-anchor="middle" font-family="serif" font-size="24" font-weight="bold" 
+        fill="url(#royalShield)" filter="url(#textGlow)">PSYCHE</text>
+  
+  <!-- App name - Pulse -->
+  <text x="150" y="255" text-anchor="middle" font-family="serif" font-size="20" font-weight="600" 
+        fill="url(#goldAccent)" opacity="0.9">PULSE</text>
+  
+  <!-- Decorative underline -->
+  <path d="M110 265 Q150 275 190 265" stroke="url(#goldAccent)" stroke-width="2" fill="none" opacity="0.7"/>
+</svg>
