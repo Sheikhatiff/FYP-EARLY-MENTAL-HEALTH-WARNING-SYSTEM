@@ -17,23 +17,23 @@ const Body = () => {
   const features = [
     {
       icon: Brain,
-      title: "AI-Powered Assessment",
+      title: "BERT AI Emotion Analysis",
       description:
-        "Understand your mental health patterns with the help of advanced algorithms for better mental wellness.",
+        "Advanced deep learning model analyzes your journal entries to identify 28 distinct emotions including sadness, anxiety, joy, and more. Creates personalized emotional baselines for accurate tracking.",
       color: "from-green-400 to-emerald-500",
     },
     {
       icon: BellIcon,
-      title: "Notification Support",
+      title: "Smart Alert System",
       description:
-        "Receive timely notifications upon changes in your mental health.",
+        "Real-time in-app and email notifications for emotional deviations, spikes, persistent negativity patterns, and positive milestones. Intelligent cooldown system prevents alert fatigue.",
       color: "from-emerald-400 to-teal-500",
     },
     {
       icon: Clock,
-      title: "24/7 Monitoring",
+      title: "Baseline & Deviation Detection",
       description:
-        "Continuous tracking with real-time alerts and support whenever you need it.",
+        "Automatically establishes your emotional baseline from journal entries. Detects significant deviations, emotion spikes, and concerning patterns with severity-based recommendations and crisis resources.",
       color: "from-teal-400 to-cyan-500",
     },
   ];
@@ -46,12 +46,12 @@ const Body = () => {
   ];
 
   const benefits = [
-    "Secure and confidential platform",
-    "Mental health assessments",
-    "Progress tracking and analytics",
-    "Timely notifications",
-    "Integration with healthcare providers",
-    "Emergency crisis intervention",
+    "AI-powered emotion analysis (28 emotions)",
+    "Personalized baseline tracking",
+    "Deviation & pattern detection",
+    "Real-time & email notifications",
+    "Interactive mood visualizations",
+    "Secure private journaling",
   ];
 
   return (
@@ -97,11 +97,9 @@ const Body = () => {
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="text-xl text-gray-300 leading-relaxed max-w-2xl"
                 >
-                  We provide a secure journaling platform to help you achieve
-                  clarity and life perspective. Become more self-aware regarding
-                  your mental health. Take control of your mental wellness right
-                  now. your words stay yours. We never read them, never share
-                  them. You're in control, always.
+                  An intelligent early warning system that monitors your emotional well-being through journaling. 
+                  Using advanced AI-powered emotion analysis, we detect patterns, track deviations from your baseline, 
+                  and provide timely alerts to help you stay aware of your mental health. Your words stay private, secure, and yours alone.
                 </motion.p>
               </div>
 
@@ -374,9 +372,9 @@ const Body = () => {
               </span>
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Our platform combines advanced AI technology with personal
-              insights to provide better understanding and awareness tailored to
-              your unique needs.
+              Our early warning system uses state-of-the-art BERT AI to analyze your emotions, 
+              track deviations from your personal baseline, and alert you to concerning patterns 
+              before they escalate - empowering proactive mental health management.
             </p>
           </motion.div>
 
@@ -436,9 +434,9 @@ const Body = () => {
             </h2>
 
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Join thousands of users who have already started their journey to
-              become a better version of themselves. Get started today with our
-              free assessment.
+              Join thousands of users who are taking control of their mental health 
+              with AI-powered insights. Start journaling today and receive personalized 
+              alerts when your emotional patterns need attention.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
